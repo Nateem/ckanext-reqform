@@ -1,0 +1,16 @@
+{% extends "reqform/base.html" %}
+
+{% block subtitle %}{{ _('Edit Request Form') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li>{% link_for _('Data Requests'), controller='ckanext.reqform.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
+  <li>{% link_for c.original_title|truncate(30), controller='ckanext.reqform.controllers.ui_controller:DataRequestsUI', action='show', id=c.reqform.get('id') %}</li>
+  <li class="active"><a href="">{{ _('Edit Request Form') }}</a></li>
+{% endblock %}
+
+{% block primary_content_inner %}
+  <h1 class="{% block page_heading_class %}page-heading{% endblock %}">{% block page_heading %}{{ _('Edit Request Form') }}{% endblock %}</h1>
+  {% snippet "reqform/snippets/edit_reqform_form.html", data=c.reqform, errors=c.errors, errors_summary=c.errors_summary, offering=c.offering %}
+{% endblock %}
+
+{% block page_header %}{% endblock %}

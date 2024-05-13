@@ -1,0 +1,15 @@
+<h2 class="page-heading">
+  {% block page_heading %}
+    {{ _('Current Discussion') }}
+  {% endblock %}
+</h2>
+
+{% if comments %}
+  {% for comment in comments %}
+    {% snippet "reqform/snippets/comment_item.html", comment=comment, reqform=reqform, errors=errors, errors_summary=errors_summary, updated_comment=updated_comment %}
+  {% endfor %}
+{% else %}
+  <p class="empty">
+    {{ _('This data request has not been commented yet') }}
+  </p>
+{% endif %}

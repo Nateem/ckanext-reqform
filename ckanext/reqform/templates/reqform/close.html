@@ -1,0 +1,16 @@
+{% extends "reqform/base.html" %}
+
+{% block subtitle %}{{ _('Close Request Form') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li>{% link_for _('Data Requests'), controller='ckanext.reqform.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
+  <li>{% link_for c.reqform.get('title')|truncate(30), controller='ckanext.reqform.controllers.ui_controller:DataRequestsUI', action='show', id=c.reqform.get('id') %}</li>
+  <li class="active"><a href="">{{ _('Close Request Form') }}</a></li>
+{% endblock %}
+
+{% block primary_content_inner %}
+  <h1 class="{% block page_heading_class %}page-heading{% endblock %}">{% block page_heading %}{{ _('Close Request Form') }}{% endblock %}</h1>
+  {% snippet "reqform/snippets/close_reqform_form.html", reqform=c.reqform, datasets=c.datasets, errors=c.errors, errors_summary=c.errors_summary  %}
+{% endblock %}
+
+{% block page_header %}{% endblock %}

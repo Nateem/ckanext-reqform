@@ -1,0 +1,68 @@
+{% extends "reqform/base.html" %}
+
+{% block title %}Request Form {{c.reqform.get('title', '')}}{% endblock %}
+
+{% set reqform_id = c.reqform.get('id') %}
+
+{% block breadcrumb_content %}
+  <li>{% link_for _('Data Requests'), controller='ckanext.reqform.controllers.ui_controller:DataRequestsUI', action='index' %}</li>
+  <li>{% link_for c.reqform.get('title'), controller='ckanext.reqform.controllers.ui_controller:DataRequestsUI', action='show', id=reqform_id %}</li>
+{% endblock %}
+
+{% block content_action %}
+
+  {% if h.check_access('update_reqform', {'id':reqform_id }) %}
+    {% link_for _('Manage'), controller='ckanext.reqform.controllers.ui_controller:DataRequestsUI', action='update', id=reqform_id, class_='btn btn-default', icon='wrench' %}
+  {% endif %}
+
+  {% if h.check_access('close_reqform', {'id':reqform_id }) and not c.reqform.closed %}
+    {% link_for _('Close'), controller='ckanext.reqform.controllers.ui_controller:DataRequestsUI', action='close', id=reqform_id, class_='btn btn-danger', icon='lock' %}
+  {% endif %}
+
+{% endblock %}
+
+{% block content_primary_nav %}
+  {{ h.build_nav_icon('show_reqform', _('Request Form'), id=reqform_id) }}
+
+  {% if h.show_comments_tab() %}
+    {{ h.build_nav_icon('comment_reqform', _('Comments') + ' ' + h.get_comments_badge(reqform_id), id=reqform_id) }}
+  {% endif %}
+{% endblock %}
+
+{% block secondary_content %}
+  {% snippet "reqform/snippets/followers.html", reqform=c.reqform %}
+
+  {% block package_social %}
+    {% snippet "snippets/social.html" %}
+  {% endblock %}
+
+{% endblock %}
+
+{% block primary_content_inner %}
+    {% if c.reqform.closed %}
+      <span class="uppercase label label-closed pull-right">
+        <i class="icon-lock fa fa-lock"></i>
+        {{ _('Closed') }}
+      </span>
+    {% else %}
+      <span class="uppercase label label-open pull-right">
+        <i class="icon-unlock fa fa-unlock"></i>
+        {{ _('Open') }}
+      </span>
+    {% endif %}
+
+  <h1 class="{% block page_heading_class %}page-heading{% endblock %}">{% block page_heading %}{{ c.reqform.get('title') }}{% endblock %}</h1>
+
+  {% block reqform_description %}
+    {% if c.reqform.get('description') %}
+      <div class="notes embedded-content">
+        {{ h.render_markdown(c.reqform.get('description')) }}
+      </div>
+    {% endif %}
+  {% endblock %}
+
+  {% block reqform_additional_info %}
+    {% snippet "reqform/snippets/additional_info.html", reqform=c.reqform %}
+  {% endblock %}
+
+{% endblock %}

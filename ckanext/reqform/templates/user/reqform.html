@@ -1,0 +1,18 @@
+{% extends "user/read_base.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="/reqform.css" />
+{% endblock %}
+
+{% block page_primary_action %}
+  {% snippet 'snippets/custom_search_form.html', query=c.q, fields=(('state', c.state),), sorting=c.filters, sorting_selected=c.sort, placeholder=_('Search Data Requests...'), no_bottom_border=true, count=c.reqform_count, no_title=True %}
+  {{ h.snippet('reqform/snippets/reqform_list.html', reqform_count=c.reqform_count, reqform=c.reqform, page=c.page, q=c.q)}}
+{% endblock %}
+
+{% block secondary_content %}
+  {{ super() }}
+  {% for facet in c.facet_titles %}
+    {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet, extras={'id': c.user_dict.name}) }}
+  {% endfor %}
+{% endblock %}

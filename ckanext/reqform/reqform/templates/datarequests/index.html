@@ -1,0 +1,24 @@
+{% extends "reqform/base.html" %}
+
+{% block primary_content %}
+  <section class="module">
+    <div class="module-content">
+      {% block page_primary_action %}
+        {% if h.check_access('create_reqform') %}
+          <div class="page_primary_action">
+            {% link_for _('Add Request Form'), controller='ckanext.reqform.controllers.ui_controller:DataRequestsUI', action='new', class_='btn btn-primary', icon=h.get_plus_icon() %}
+          </div>
+        {% endif %}
+        {% snippet 'snippets/custom_search_form.html', query=c.q, fields=(('organization', c.organization), ('state', c.state)), sorting=c.filters, sorting_selected=c.sort, placeholder=_('Search Data Requests...'), no_bottom_border=true, count=c.reqform_count, no_title=True %}
+        {{ h.snippet('reqform/snippets/reqform_list.html', reqform_count=c.reqform_count, reqform=c.reqform, page=c.page, q=c.q)}}
+      {% endblock %}
+    </div>
+  </section>
+{% endblock %}
+
+{% block secondary_content %}
+  {{ super() }}
+  {% for facet in c.facet_titles %}
+    {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
+  {% endfor %}
+{% endblock %}

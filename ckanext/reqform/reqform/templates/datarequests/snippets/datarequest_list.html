@@ -1,0 +1,23 @@
+{% set title= _('No Data Requests found') if reqform_count == 0 else '%s reqform found' % reqform_count %}
+
+<!--<h2>{{ title }}</h2>!-->
+
+{% block reqform_search_results_list %}
+  {% if reqform %}
+    <ul class="dataset-list unstyled list-unstyled">
+      {% for reqform in reqform %}
+        {{ h.snippet('reqform/snippets/reqform_item.html', reqform=reqform, facet_titles=facet_titles) }}
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="empty">
+      {{ _('No Data Requests found with the given criteria') }}.
+      {% if h.check_access('create_reqform') %}
+        {% link_for _('How about creating one?'), controller='ckanext.reqform.controllers.ui_controller:DataRequestsUI', action='new' %}</a>
+      {% endif %}
+    </p>
+  {% endif %}
+{% endblock %}
+{% block page_pagination %}
+  {{ page.pager(q=q) }}
+{% endblock %}
