@@ -1,0 +1,14 @@
+# reqform-js:
+#   filter: rjsmin
+#   output: ckanext-reqform/%(version)s-reqform.js
+#   contents:
+#     - js/reqform.js
+#   extra:
+#     preload:
+#       - base/main
+
+# reqform-css:
+#   filter: cssrewrite
+#   output: ckanext-reqform/%(version)s-reqform.css
+#   contents:
+#     - css/reqform.css
